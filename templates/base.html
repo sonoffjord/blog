@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moschino | Minimalist Free HTML Portfolio by WowThemes.net</title>
+<link rel='stylesheet' href='{% static 'css/woocommerce-layout.css' %}'>
+<link rel='stylesheet' href='{% static 'css/woocommerce-smallscreen.css' %}'>
+<link rel='stylesheet' href='{% static 'css/woocommerce.css' %}'>
+<link rel='stylesheet' href='{% static 'css/font-awesome.min.css' %}'>
+<link rel='stylesheet' href='{% static 'style.css' type='text/css' %}'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Oswald:400,500,700%7CRoboto:400,500,700%7CHerr+Von+Muellerhoff:400,500,700%7CQuattrocento+Sans:400,500,700' type='text/css' media='all'/>
+<link rel='stylesheet' href='{% static 'css/easy-responsive-shortcodes.css' %}'>
+</head>
+<body class="home page page-template page-template-template-portfolio page-template-template-portfolio-php">
+<div id="page">
+	<div class="container">
+        {% include 'includes/header.html' %}
+		<div id="content" class="site-content">
+		    {% block content %}{% endblock %}
+		</div>
+        {% include 'includes/footer.html' %}
+	</div>
+</div>
+<script src='{% static 'js/jquery.js' %}'></script>
+<script src='{% static 'js/plugins.js' %}'></script>
+<script src='{% static 'js/scripts.js' %}'></script>
+<script src='{% static 'js/masonry.pkgd.min.js' %}'></script>
+</body>
+</html>
