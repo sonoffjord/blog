@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} :: {{ block.super }}{% endblock %}
+{% block content %}
+
+<div id="primary" class="content-area column full">
+    <main id="main" class="site-main">
+        <div class="grid portfoliogrid">
+
+            {% for post in posts %}
+            <article class="hentry">
+                <header class="entry-header">
+                        <h2 class="entry-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                        {{ post.content|truncatewords_html:20 }} <br>
+                        <span>Category: {{ post.category }}</span> <br>
+                        <span>Author: @{{ post.author }}</span> <br>
+                        <span>Created at: {{ post.created_at|date:'d.m.y' }}</span> <br>
+                        {% for tag in post.tags.all %}
+                        <a class='portfoliotype' href='#'>{{ tag.title }}</a>
+                        {% endfor %}
+                </header>
+            </article>
+            {% endfor %}
+        </div>
+
+        {% if page_obj.has_other_pages %}
+        <nav class="pagination">
+            {% for p in page_obj.paginator.page_range %}
+                {% if page_obj.number == p %}
+                    <span class="page-numbers current">{{ p }}</span>
+                {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                    <a class="page-numbers" href="?page={{ p }}">{{ p }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a class="next page-numbers" href="?page={{ page_obj.next_page_number }}">Next »</a>
+            {% endif %}
+        </nav>
+        <br />
+        {% endif %}
+
+    </main>
+    <!-- #main -->
+</div>
+
+{% endblock %}

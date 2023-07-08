@@ -6,12 +6,12 @@ from .models import Post, Category, Tag
 class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     save_on_top = True
-    list_display = ('id', 'title', 'slug', 'category')
+    list_display = ('id', 'title', 'author', 'slug', 'category')
     list_display_links = ('id', 'title')
     search_fields = ('title',)
     list_filter = ('category',)
     readonly_fields = ('views', 'created_at')
-    fields = ('title', 'slug', 'category', 'tags', 'content', 'views', 'created_at')
+    fields = ('title', 'slug', 'category', 'tags', 'author', 'content', 'views', 'created_at')
 
 
 class CategoryAdmin(admin.ModelAdmin):
