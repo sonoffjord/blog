@@ -12,12 +12,12 @@ class Category(models.Model):
         verbose_name_plural = 'Категории'
         ordering = ['title',]
 
-    def  __str__(self):
+    def __str__(self):
         return self.title
-    
+
     def get_absolute_url(self):
         return reverse("blog:category", kwargs={"slug": self.slug})
-    
+
 
 class Tag(models.Model):
     title = models.CharField(max_length=80, verbose_name='Заголовок')
@@ -28,14 +28,18 @@ class Tag(models.Model):
         verbose_name_plural = 'Теги'
         ordering = ['title',]
 
-    def  __str__(self):
+    def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("blog:tag", kwargs={"slug": self.slug})
 
 
 class Post(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     slug = models.SlugField(max_length=255, verbose_name='URL', unique=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts', verbose_name='Автор')
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='posts', verbose_name='Автор')
     content = models.TextField(verbose_name='Текст поста')
     created_at = models.DateField(
         auto_now_add=True, verbose_name='Дата публикации')
@@ -43,19 +47,20 @@ class Post(models.Model):
     views = models.IntegerField(default=0, verbose_name='Просмотры')
     category = models.ForeignKey(
         Category, on_delete=models.PROTECT, related_name='posts', verbose_name='Категория')
-    tags = models.ManyToManyField(Tag, blank=True, related_name='posts', verbose_name='Тэг')
+    tags = models.ManyToManyField(
+        Tag, blank=True, related_name='posts', verbose_name='Тэг')
 
     class Meta:
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
         ordering = ['-created_at',]
 
-    def  __str__(self):
+    def __str__(self):
         return self.title
-    
+
     def get_absolute_url(self):
         return reverse("blog:post", kwargs={"slug": self.slug})
-    
+
     def save(self, *args, **kwargs):
         if not self.author:
             self.author = User.objects.get(username='default_username')

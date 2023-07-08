@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}{{ post.title }} :: {{ block.super }}{% endblock %}
+{% block content %}
+
+<body class="single single-post">
+<div id="page">
+	<div class="container">
+		<div id="content" class="site-content">
+			<div id="primary" class="content-area column two-thirds">
+				<main id="main" class="site-main" role="main">
+				<article>
+				<header class="entry-header">
+				<h1 class="entry-title">{{ post.title }}</h1>
+				<div class="entry-meta">
+						<span class="posted-on"><time class="entry-date published">{{ post.created_at|date:'d.m.y' }}</time></span>
+						<span>Views: {{ post.views }}</span> <br>
+						<span>Category: <a href="{{ post.category.get_absolute_url }}">{{ post.category.title }}</a></span>
+				</div>
+				</header>
+				<div class="entry-content">
+					<p>
+						{{ post.content|safe }}
+					</p>
+				</div>
+				<footer class="entry-footer">
+				<span class="cat-links">
+				Posted in 
+				{% for tag in post.tags.all %}
+					<a href="{{ tag.get_absolute_url }}" rel="category tag">{{ tag.title }}</a>
+				{% endfor %}
+				</span>
+				</footer>
+				</article>
+				<nav class="navigation post-navigation" role="navigation">
+				<div class="nav-links">
+					<div class="nav-previous">
+						<a href="{% url 'blog:home' %}" rel="prev"><span class="meta-nav">←</span> Thanks for watching!</a>
+					</div>
+				</div>
+				</nav>
+				</main>
+			</div>
+			<div id="secondary" class="column third">
+				<div id="sidebar-1" class="widget-area" role="complementary">
+					<aside id="recent-posts-2" class="widget widget_recent_entries">
+					<h4 class="widget-title">Recent Posts</h4>
+					<ul>
+						<li>
+						<a href="blog-single.html">Somewhere in time</a>
+						</li>
+						<li>
+						<a href="blog-single.html">Thanks for watching!</a>
+						</li>
+						<li>
+						<a href="blog-single.html/">Who could have thought?</a>
+						</li>
+						<li>
+						<a href="blog-single.html">Text Alignement</a>
+						</li>
+						<li>
+						<a href="blog-single.html">HTML Tags and Formatting</a>
+						</li>
+					</ul>
+					</aside>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
