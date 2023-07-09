@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} :: {{ block.super }}{% endblock %}
+{% block content %}
+<h4>Add</h4>
+
+<form class="wpcf7" method="post">
+    <div class="form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" id="submit" class="clearfix btn" value="SUBMIT">
+    </div>
+</form>
+<br>
+{% endblock %}

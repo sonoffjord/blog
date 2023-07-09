@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
-from .models import Post, Category, Tag
 from django.db.models import F
+from django.contrib.auth import login, logout
+
+from .models import Post, Category, Tag
+from .forms import UserRegisterForm, UserAuthForm, AddPostForm
 
 
 class Home(ListView):
@@ -57,3 +60,46 @@ class PostDetail(DetailView):
         self.object.save()
         self.object.refresh_from_db()
         return context
+
+
+def add_post(request):
+    if request.method == 'POST':
+        form = AddPostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('blog:home')
+    else:
+        form = AddPostForm()
+    return render(request, template_name='blog/formtemplate.html', context={'form': form})
+
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('blog:home')
+    else:
+        form = UserRegisterForm()
+    return render(request, template_name='blog/formtemplate.html', context={'form': form})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = UserAuthForm(data=request.POST)
+        if form.is_valid():
+            user  = form.get_user()
+            login(request, user)
+            return redirect('blog:home')
+    else:
+        form = UserAuthForm()
+    return render(request, template_name='blog/formtemplate.html', context={'form': form})
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('blog:login')
